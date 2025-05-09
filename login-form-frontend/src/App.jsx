@@ -4,8 +4,11 @@ import LoginForm from "./pages/loginForm";
 import RegisterForm from "./pages/RegisterForm";
 import HomePage from "./pages/HomePage";
 import WelcomePage from "./pages/welcomePage";
+import AboutPage from "./pages/AboutPage";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProfilePage from "./pages/ProfilePage";
+import OrderPage from "./pages/OrderPage";
 
 function App() {
   return (
@@ -16,6 +19,9 @@ function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/welcome" element={<WelcomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/order" element={<OrderPage />} />
       </Routes>
     </>
   );

@@ -1,21 +1,22 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import VerifyPage from "./VerifyPage";
 
-const Welcome = () => {
+const AboutPage = () => {
+  VerifyPage();
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
 
-  const logoutHandler = async () => {
+  const AboutHandler = async () => {
     try {
-      await axios.post(
-        "http://localhost:3002/findroute/logout",
+      await axios.get(
+        "http://localhost:3002/findroute/about",
         {},
         {
           withCredentials: true,
         }
       );
-      localStorage.removeItem("user");
       alert("Logged out successfully!");
       navigate("/");
     } catch (error) {
@@ -27,24 +28,22 @@ const Welcome = () => {
   return (
     <div>
       <h2>
-        Welcoe, {user?.userId}!
+        Welcome, {user?.userId}!
         <button
           style={{
             padding: "10px 15px",
-            background: "red",
-            color: "white",
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
             marginTop: "10px",
           }}
-          onClick={logoutHandler}
+          onClick={AboutHandler}
         >
-          Logout
+          logout
         </button>
       </h2>
     </div>
   );
 };
 
-export default Welcome;
+export default AboutPage;

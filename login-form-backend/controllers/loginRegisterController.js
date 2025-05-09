@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth");
 const generateToken = require("../authentication/generateToken");
+const authVerifyToken = require("../authentication/verifyAuth");
 const router = require("../Routes/loginRegisterRoutes");
 
 exports.userRegistration = async (req, res) => {
@@ -31,13 +32,13 @@ exports.userRegistration = async (req, res) => {
 
 exports.userLogin = async (req, res) => {
   const { userId, password } = req.query;
+
   console.log("userId ----->", userId, "password ----> ", password);
   try {
     let userRegistered = await LoginUser.findOne({ where: { userId } });
 
     if (!userRegistered) {
       console.log("User does not exist");
-
       // return;
       return res.status(404).json({ message: "User does not exist" });
     }
@@ -52,9 +53,10 @@ exports.userLogin = async (req, res) => {
     }
     console.log("send cookie token");
     generateToken({ userId: userRegistered.userId }, res);
+    // authVerifyToken();
     // res.status(200).json({ userId: userRegistered.userId });
     return res.status(200).json({
-      message: "Login successful",
+      message: "Login successful", 
       userId: userRegistered.userId,
     });
   } catch (error) {
@@ -64,11 +66,6 @@ exports.userLogin = async (req, res) => {
 
 exports.userLogout = async (req, res) => {
   try {
-    const { userId } = req.body;
-    const findUser = await LoginUser.findOne({ where: { userId } });
-    if (!findUser) {
-      console.log("error in user Logg");
-    }
     res.clearCookie("jwt");
     res.status(200).json({ redirect: "/", message: "logged out" });
   } catch (err) {
